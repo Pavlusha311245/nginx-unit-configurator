@@ -1,8 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Configurator – Nginx Unit Configuration Tool</title>
+
+    <!-- Meta description and keywords -->
+    <meta name="description"
+          content="Easily create and edit Nginx Unit configurations with a user-friendly interface..">
+    <meta name="keywords" content="unit, nginx unit, configurator, server settings, json config, backend, deployment">
+    <meta name="author" content="Pavel Zavadski">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph (Facebook, LinkedIn, etc.) -->
+    <meta property="og:title" content="Unit Configurator – Nginx Unit Configuration Tool">
+    <meta property="og:description"
+          content="Easily create and edit Nginx Unit configurations with a user-friendly interface.">
+    <!--    <meta property="og:image" content="https://nxunit.pavlusha.me/images/unit-configurator-preview.jpg">-->
+    <!--    <meta property="og:image:alt" content="Unit Configurator interface screenshot">-->
+    <meta property="og:url" content="https://nxunit.pavlusha.me">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Unit Configurator">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Unit Configurator – Nginx Unit Configuration Tool">
+    <meta name="twitter:description"
+          content="Easily create and edit Nginx Unit configurations with a user-friendly interface.">
+    <!--    <meta name="twitter:image" content="https://nxunit.pavlusha.me/images/unit-configurator-preview.jpg">-->
+    <!--    <meta name="twitter:image:alt" content="Unit Configurator interface screenshot">-->
+    <meta name="twitter:creator" content="@PavelZavadski">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://nxunit.pavlusha.me/unit-configurator">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://nxunit.pavlusha.me/favicon.png">
+
     <title>Unit Configurator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flowbite@1.6.5/dist/flowbite.min.css"/>
@@ -408,5 +443,38 @@
         document.getElementById('output-build').textContent = command.trim();
     });
 </script>
+
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Unit Configurator",
+        "description": "An online tool for configuring Nginx Unit.",
+        "url": "https://nxunit.pavlusha.me",
+        "author": {
+            "@type": "Person",
+            "givenName": "Pavel",
+            "familyName": "Zavadski",
+            "url": "https://pavlusha.me"
+        },
+        "publisher": {
+            "@type": "Person",
+            "givenName": "Pavel",
+            "familyName": "Zavadski",
+            "url": "https://pavlusha.me"
+        },
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "All",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "softwareVersion": "0.1",
+        "datePublished": "2025-02-01",
+        "dateModified": "2025-02-01"
+    }
+</script>
+
 </body>
 </html>
