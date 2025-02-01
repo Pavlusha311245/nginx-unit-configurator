@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://nxunit.pavlusha.me/sitemap.xml
