@@ -170,6 +170,111 @@
             description: 'Enable njs scripting support',
             type: 'checkbox'
         },
+        {
+            id: 'prefix',
+            name: '--prefix=PREFIX',
+            description: 'Destination directory prefix for path options. Default is /usr/local.',
+            placeholder: '/usr/local',
+            type: 'text'
+        },
+        {
+            id: 'exec_prefix',
+            name: '--exec-prefix=EXEC_PREFIX',
+            description: 'Destination directory prefix for executable directories. Default is PREFIX value.',
+            placeholder: '/usr/local',
+            type: 'text'
+        },
+        {
+            id: 'bindir',
+            name: '--bindir=BINDIR',
+            description: 'Directory path for client executables. Default is EXEC_PREFIX/bin.',
+            placeholder: '/usr/local/bin',
+            type: 'text'
+        },
+        {
+            id: 'sbindir',
+            name: '--sbindir=SBINDIR',
+            description: 'Directory path for server executables. Default is EXEC_PREFIX/sbin.',
+            placeholder: '/usr/local/sbin',
+            type: 'text'
+        },
+        {
+            id: 'includedir',
+            name: '--includedir=INCLUDEDIR',
+            description: 'Directory path for libunit header files. Default is PREFIX/include.',
+            placeholder: '/usr/local/include',
+            type: 'text'
+        },
+        {
+            id: 'libdir',
+            name: '--libdir=LIBDIR',
+            description: 'Directory path for libunit libraries. Default is EXEC_PREFIX/lib.',
+            placeholder: '/usr/local/lib',
+            type: 'text'
+        },
+        {
+            id: 'modulesdir',
+            name: '--modulesdir=MODULESDIR',
+            description: 'Directory path for Unit’s language modules. Default is LIBDIR/unit/modules.',
+            placeholder: '/usr/local/lib/unit/modules',
+            type: 'text'
+        },
+        {
+            id: 'datarootdir',
+            name: '--datarootdir=DATAROOTDIR',
+            description: 'Directory path for unitd(8) data storage. Default is PREFIX/share.',
+            placeholder: '/usr/local/share',
+            type: 'text'
+        },
+        {
+            id: 'mandir',
+            name: '--mandir=MANDIR',
+            description: 'Directory path where the man page is installed. Default is DATAROOTDIR/man.',
+            placeholder: '/usr/local/share/man',
+            type: 'text'
+        },
+        {
+            id: 'localstatedir',
+            name: '--localstatedir=LOCALSTATEDIR',
+            description: 'Directory path where Unit stores runtime state. Default is PREFIX/var.',
+            placeholder: '/usr/local/var',
+            type: 'text'
+        },
+        {
+            id: 'libstatedir',
+            name: '--libstatedir=LIBSTATEDIR',
+            description: 'Directory path for Unit’s runtime state storage. Default is LOCALSTATEDIR/run/unit.',
+            placeholder: '/usr/local/var/run/unit',
+            type: 'text'
+        },
+        {
+            id: 'logdir',
+            name: '--logdir=LOGDIR',
+            description: 'Directory path for Unit’s log. Default is LOCALSTATEDIR/log/unit.',
+            placeholder: '/usr/local/var/log/unit',
+            type: 'text'
+        },
+        {
+            id: 'runstatedir',
+            name: '--runstatedir=RUNSTATEDIR',
+            description: 'Directory path where Unit stores PID file and control socket. Default is LOCALSTATEDIR/run/unit.',
+            placeholder: '/usr/local/var/run/unit',
+            type: 'text'
+        },
+        {
+            id: 'control',
+            name: '--control=SOCKET',
+            description: 'Control API socket address. Default is unix:RUNSTATEDIR/control.unit.sock.',
+            placeholder: 'unix:/usr/local/var/run/unit/control.unit.sock',
+            type: 'text'
+        },
+        {
+            id: 'tmpdir',
+            name: '--tmpdir=TMPDIR',
+            description: 'Temporary file storage location. Default is /tmp.',
+            placeholder: '/tmp',
+            type: 'text'
+        }
     ]
     const startupFormFields = [
         {
