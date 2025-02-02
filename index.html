@@ -7,8 +7,8 @@
     <title>Unit Configurator – Nginx Unit Configuration Tool</title>
 
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://nxunit.pavlusha.me/unit-configurator">
-    <link rel="alternate" href="https://www.nxunit.pavlusha.me/unit-configurator" hreflang="x-default">
+    <link rel="canonical" href="https://nxunit.pavlusha.me">
+    <link rel="alternate" href="https://www.nxunit.pavlusha.me" hreflang="x-default">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
     <!-- Meta description and keywords -->
@@ -47,7 +47,7 @@
     <link href="src/app.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100 dark:bg-gray-800 py-10 dark:text-white">
-<div class="max-w-4xl mx-auto bg-white dark:bg-gray-600 p-6 rounded-lg shadow-md">
+<div class="max-w-6xl mx-auto bg-white dark:bg-gray-600 p-6 rounded-lg shadow-md">
     <h1 class="text-2xl font-bold mb-4">Nginx Unit Configurator</h1>
     <div class="flex">
         <div class="w-1/4 border-r">
@@ -67,29 +67,40 @@
             <div id="startup" class="tab-content">
                 <h2 class="text-2xl font-bold mb-4">Nginx Unit Startup Configurator</h2>
                 <form id="startup-form" class="space-y-4">
-                    <div id="startup-form-fields" class="space-y-4"></div>
+                    <div id="startup-form-fields" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
                     <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Generate
                         Command
                     </button>
                 </form>
                 <div class="mt-4">
                     <h3 class="text-lg font-semibold">Generated Command:</h3>
-                    <pre id="output-startup" class="bg-gray-200 dark:bg-gray-900 p-2 rounded-md"></pre>
+                    <div class="relative">
+                        <input id="output-startup" type="text" readonly
+                               class="bg-gray-200 dark:bg-gray-900 text-gray-800 dark:text-gray-200 p-2 rounded-md w-full pr-20">
+                        <button class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-blue-500 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                onclick="copyCommand('output-startup')">Copy</button>
+                    </div>
                 </div>
+
             </div>
 
             <!-- Build Config Tab -->
             <div id="build" class="tab-content hidden">
                 <h2 class="text-2xl font-bold mb-4">Nginx Unit Build Configurator</h2>
                 <form id="build-form" class="space-y-4">
-                    <div id="build-form-fields" class="space-y-4"></div>
+                    <div id="build-form-fields" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
                     <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Generate
                         Command
                     </button>
                 </form>
                 <div class="mt-4">
                     <h3 class="text-lg font-semibold">Generated Command:</h3>
-                    <pre id="output-build" class="bg-gray-200 dark:bg-gray-900 p-2 rounded-md"></pre>
+                    <div class="relative">
+                        <input id="output-build" type="text" readonly
+                               class="bg-gray-200 dark:bg-gray-900 text-gray-800 dark:text-gray-200 p-2 rounded-md w-full pr-20">
+                        <button class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-blue-500 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                onclick="copyCommand('output-build')">Copy</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -104,6 +115,18 @@
 <script src="node_modules/flowbite/dist/flowbite.min.js"></script>
 
 <script>
+    function copyCommand(outputId) {
+        const commandInput = document.getElementById(outputId);
+        if (!commandInput) return;
+
+        const text = commandInput.value.trim();
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Command copied to clipboard!');
+        }).catch(err => {
+            console.error('Failed to copy command: ', err);
+        });
+    }
+
     const buildFormFields = [
         {
             id: 'cc',
@@ -362,85 +385,61 @@
         },
     ]
 
+    const createCheckbox = (field) => {
+        const input = document.createElement('input');
+        input.setAttribute('type', 'checkbox');
+        input.setAttribute('name', field.id);
+        input.classList.add('w-4', 'h-4', 'text-blue-600', 'bg-gray-100', 'border-gray-300', 'rounded-sm', 'focus:ring-blue-500');
+        const labelCheckbox = document.createElement('label');
+        labelCheckbox.setAttribute('for', field.id);
+        labelCheckbox.classList.add('ms-2', 'text-sm', 'font-medium', 'text-gray-900', 'dark:text-white');
+        labelCheckbox.textContent = field.description;
+
+        const div = document.createElement('div');
+        div.classList.add('flex', 'items-center', 'mb-4');
+        div.appendChild(input);
+        div.appendChild(labelCheckbox);
+
+        return div;
+    }
+
+    const createInput = (field) => {
+        const input = document.getElementById('input-template').content.cloneNode(true);
+        input.querySelector('input').setAttribute('id', field.id);
+        input.querySelector('input').setAttribute('name', field.id);
+        input.querySelector('input').setAttribute('placeholder', field.placeholder);
+
+        const label = document.createElement('label');
+        label.setAttribute('for', field.id);
+        label.textContent = field.name;
+        label.classList.add('block', 'mb-2', 'text-sm', 'font-medium', 'text-gray-900', 'dark:text-white');
+
+        const div = document.createElement('div');
+        div.appendChild(label);
+        div.appendChild(input);
+
+        return div;
+    }
+
+    const createField = (field) => {
+        switch (field.type) {
+            case 'checkbox':
+                return createCheckbox(field);
+            case 'text':
+                return createInput(field);
+        }
+    }
+
     window.onload = function () {
         let startupForm = document.getElementById('startup-form-fields');
         let buildForm = document.getElementById('build-form-fields');
 
-        startupFormFields.forEach(field => {
-            let label = document.createElement('label');
-            label.setAttribute('for', field.id);
-            label.textContent = field.name;
-            label.classList.add('block', 'mb-2', 'text-sm', 'font-medium', 'text-gray-900', 'dark:text-white');
+        const populateFormFields = (formElement, formFields) => {
+            formFields.forEach(field => formElement.appendChild(createField(field)));
+        };
 
-            if (field.type === 'checkbox') {
-                let input = document.createElement('input');
-                input.setAttribute('type', 'checkbox');
-                input.setAttribute('name', field.id);
-                input.classList.add('w-4', 'h-4', 'text-blue-600', 'bg-gray-100', 'border-gray-300', 'rounded-sm', 'focus:ring-blue-500');
-                let labelCheckbox = document.createElement('label');
-                labelCheckbox.setAttribute('for', field.id);
-                labelCheckbox.classList.add('ms-2', 'text-sm', 'font-medium', 'text-gray-900');
-                labelCheckbox.textContent = field.description;
-
-                let div = document.createElement('div');
-                div.classList.add('flex', 'items-center', 'mb-4');
-                div.appendChild(input);
-                div.appendChild(labelCheckbox);
-
-                startupForm.appendChild(div);
-            }
-
-            if (field.type === 'text') {
-                let input = document.getElementById('input-template').content.cloneNode(true);
-                input.querySelector('input').setAttribute('id', field.id);
-                input.querySelector('input').setAttribute('name', field.id);
-                input.querySelector('input').setAttribute('placeholder', field.placeholder);
-
-                let div = document.createElement('div');
-                div.appendChild(label);
-                div.appendChild(input);
-
-                startupForm.appendChild(div);
-            }
-        });
-
-        buildFormFields.forEach(field => {
-            let label = document.createElement('label');
-            label.setAttribute('for', field.id);
-            label.textContent = field.name;
-            label.classList.add('block', 'mb-2', 'text-sm', 'font-medium', 'text-gray-900', 'dark:text-white');
-
-            if (field.type === 'checkbox') {
-                let input = document.createElement('input');
-                input.setAttribute('type', 'checkbox');
-                input.setAttribute('name', field.id);
-                input.classList.add('w-4', 'h-4', 'text-blue-600', 'bg-gray-100', 'border-gray-300', 'rounded-sm', 'focus:ring-blue-500');
-                let labelCheckbox = document.createElement('label');
-                labelCheckbox.setAttribute('for', field.id);
-                labelCheckbox.classList.add('ms-2', 'text-sm', 'font-medium', 'text-gray-900');
-                labelCheckbox.textContent = field.description;
-
-                let div = document.createElement('div');
-                div.classList.add('flex', 'items-center', 'mb-4');
-                div.appendChild(input);
-                div.appendChild(labelCheckbox);
-
-                buildForm.appendChild(div);
-            }
-
-            if (field.type === 'text') {
-                let input = document.getElementById('input-template').content.cloneNode(true);
-                input.querySelector('input').setAttribute('id', field.id);
-                input.querySelector('input').setAttribute('name', field.id);
-                input.querySelector('input').setAttribute('placeholder', field.placeholder);
-
-                let div = document.createElement('div');
-                div.appendChild(label);
-                div.appendChild(input);
-
-                buildForm.appendChild(div);
-            }
-        });
+        populateFormFields(startupForm, startupFormFields);
+        populateFormFields(buildForm, buildFormFields);
     };
 
     function showTab(tabId) {
@@ -461,7 +460,7 @@
                 command += value === 'on' ? ` --${option}` : ` --${option}=${value}`;
             }
         });
-        document.getElementById('output-startup').textContent = command;
+        document.getElementById('output-startup').value = command;
     });
 
     // Build Form Handler
@@ -475,14 +474,14 @@
                 command += value === 'on' ? ` --${option}` : ` --${option}=${value}`;
             }
         });
-        document.getElementById('output-build').textContent = command.trim();
+        document.getElementById('output-build').value = command.trim();
     });
 </script>
 
 <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
+        "@type": ["SoftwareApplication", "WebApplication"],
         "name": "Unit Configurator",
         "description": "An online tool for configuring Nginx Unit.",
         "url": "https://nxunit.pavlusha.me",
@@ -490,20 +489,23 @@
             "@type": "Person",
             "givenName": "Pavel",
             "familyName": "Zavadski",
-            "url": "https://pavlusha.me"
+            "url": "https://pavlusha.me",
+            "email":"pavel.zavadski@pavlusha.me"
         },
         "publisher": {
             "@type": "Person",
             "givenName": "Pavel",
             "familyName": "Zavadski",
-            "url": "https://pavlusha.me"
+            "url": "https://pavlusha.me",
+            "email": "pavel.zavadski@pavlusha.me"
         },
         "applicationCategory": "DeveloperApplication",
         "operatingSystem": "All",
         "offers": {
             "@type": "Offer",
             "price": "0",
-            "priceCurrency": "USD"
+            "priceCurrency": "USD",
+            "isAccessibleForFree": true
         },
         "softwareVersion": "0.1",
         "datePublished": "2025-02-01",
