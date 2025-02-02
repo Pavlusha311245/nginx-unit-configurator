@@ -1,6 +1,6 @@
 # Nginx Unit Configurator
 
-![img.png](preview.png)
+![img.png](public/preview.png)
 
 ## About
 
